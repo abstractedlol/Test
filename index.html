@@ -1,0 +1,2645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="protect.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>unmasked</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/assets/styles/style.css">
+  <style>
+    .pricing-header {
+      text-align: center;
+      margin-bottom: 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .pricing-toggle-wrap {
+      display: inline-flex;
+      align-items: center;
+      background: #141419;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+      padding: 5px;
+      gap: 6px;
+      margin-top: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .billing-toggle-btn {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #71717a;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 9px 24px;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .billing-toggle-btn:hover {
+      color: #e4e4e7;
+    }
+
+    .billing-toggle-btn.active {
+      background: #27272a;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .user-menu-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .user-pill-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #111116;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 9999px;
+      padding: 4px 12px 4px 5px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+      user-select: none;
+    }
+
+    .user-avatar-circle {
+      width: 26px !important;
+      height: 26px !important;
+      min-width: 26px !important;
+      min-height: 26px !important;
+      border-radius: 50%;
+      background: #18181b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .user-avatar-circle svg {
+      width: 15px !important;
+      height: 15px !important;
+      fill: #a1a1aa;
+    }
+
+    .user-pill-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #f4f4f5;
+    }
+
+    .user-plan-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.06);
+      color: #d4d4d8;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 2px 7px;
+      border-radius: 9999px;
+    }
+
+    .user-pill-chevron {
+      width: 12px !important;
+      height: 12px !important;
+      color: #71717a;
+      transition: transform 0.2s ease;
+    }
+
+    .user-menu-wrapper.active .user-pill-chevron {
+      transform: rotate(180deg);
+    }
+
+    .user-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 220px;
+      background: #111116;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      padding: 10px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85);
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 999;
+    }
+
+    .user-menu-wrapper.active .user-dropdown-menu {
+      display: flex;
+    }
+
+    .dropdown-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+
+    .dropdown-btn svg {
+      width: 15px !important;
+      height: 15px !important;
+      flex-shrink: 0;
+    }
+
+    .dropdown-btn.panel-btn {
+      background: #1c1c22;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+    }
+
+    .dropdown-btn.panel-btn:hover {
+      background: #27272a;
+    }
+
+    .dropdown-btn.panel-locked {
+      background: #151518;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: #52525b;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .dropdown-btn.logout-btn {
+      color: #f87171;
+      margin-top: 2px;
+    }
+
+    .dropdown-btn.logout-btn:hover {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+    }
+
+    .unmasked-hub-screen {
+      position: fixed;
+      inset: 0;
+      background: #08080a;
+      z-index: 10000;
+      display: flex;
+      color: #f4f4f5;
+      overflow: hidden;
+    }
+
+    .hub-sidebar {
+      width: 260px;
+      background: #0d0d12;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex-shrink: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .hub-brand-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .hub-brand-logo {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+    }
+
+    .hub-brand-text {
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hub-tag-mini {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      color: #71717a;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hub-nav-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hub-group-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.64rem;
+      color: #52525b;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 8px 10px 4px 10px;
+    }
+
+    .hub-nav-button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: transparent;
+      border: none;
+      color: #a1a1aa;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+      width: 100%;
+    }
+
+    .hub-nav-button svg {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      color: #71717a;
+      transition: color 0.15s ease;
+    }
+
+    .hub-nav-button:hover, .hub-nav-button.active {
+      background: rgba(255, 255, 255, 0.06);
+      color: #ffffff;
+    }
+
+    .hub-nav-button:hover svg, .hub-nav-button.active svg {
+      color: #ffffff;
+    }
+
+    .hub-workspace {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow-y: auto;
+      background: #08080a;
+    }
+
+    .hub-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(8, 8, 10, 0.85);
+      backdrop-filter: blur(14px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .hub-status-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hub-pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+    }
+
+    .hub-status-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: #e4e4e7;
+    }
+
+    .hub-exit-button {
+      background: #121217;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #d4d4d8;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .hub-exit-button:hover {
+      background: #1c1c22;
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .hub-view-container {
+      padding: 32px 40px 60px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .hub-telemetry-banner {
+      background: #111116;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: 1.5fr repeat(3, 1fr);
+      gap: 20px;
+      align-items: center;
+    }
+
+    .hub-operator-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .hub-op-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #18181b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hub-op-avatar svg {
+      width: 22px;
+      height: 22px;
+      fill: #a1a1aa;
+    }
+
+    .hub-op-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .hub-op-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: #71717a;
+      margin-top: 3px;
+    }
+
+    .hub-metric-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border-left: 1px solid rgba(255, 255, 255, 0.06);
+      padding-left: 20px;
+    }
+
+    .hub-metric-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .hub-metric-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: #71717a;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hub-category-block {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hub-category-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 8px;
+    }
+
+    .hub-category-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: #a1a1aa;
+      text-transform: uppercase;
+    }
+
+    .hub-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .hub-card {
+      background: #101015;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .hub-card:hover {
+      background: #16161d;
+      border-color: rgba(255, 255, 255, 0.22);
+      transform: translateY(-2px);
+    }
+
+    .hub-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .hub-card-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #d4d4d8;
+    }
+
+    .hub-card-icon svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .hub-card-indicator {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #71717a;
+    }
+
+    .hub-card-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #f4f4f5;
+    }
+
+    .hub-card-desc {
+      font-size: 0.76rem;
+      color: #71717a;
+      line-height: 1.4;
+    }
+
+    .hub-query-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 860px;
+      width: 100%;
+      margin: 20px auto;
+      text-align: center;
+    }
+
+    .hub-back-action {
+      align-self: flex-start;
+      background: transparent;
+      border: none;
+      color: #71717a;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 26px;
+    }
+
+    .hub-back-action:hover {
+      color: #ffffff;
+    }
+
+    .hub-query-headline {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .hub-query-subhead {
+      font-size: 0.95rem;
+      color: #8e8e93;
+      max-width: 580px;
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+
+    .hub-search-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      background: #111116;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 9999px;
+      padding: 6px 8px 6px 22px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      margin-bottom: 24px;
+    }
+
+    .hub-search-bar input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+    }
+
+    .hub-search-btn {
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      border-radius: 9999px;
+      padding: 11px 26px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hub-search-btn:hover {
+      background: #d4d4d8;
+    }
+
+    /* Drag-and-drop Image Upload Zone */
+    .dropzone-container {
+      width: 100%;
+      border: 2px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      padding: 36px 20px;
+      background: #101015;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      cursor: pointer;
+      margin-bottom: 24px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .dropzone-container:hover, .dropzone-container.drag-active {
+      border-color: rgba(255, 255, 255, 0.4);
+      background: #15151c;
+    }
+
+    .dropzone-icon {
+      width: 44px;
+      height: 44px;
+      color: #71717a;
+    }
+
+    .dropzone-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #f4f4f5;
+    }
+
+    .dropzone-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #71717a;
+    }
+
+    .dropzone-file-input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .image-preview-box {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .image-preview-thumb {
+      max-height: 220px;
+      max-width: 100%;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      object-fit: contain;
+    }
+
+    /* Case Files Layout */
+    .casefile-builder {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: left;
+      margin-bottom: 24px;
+    }
+
+    .casefile-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .casefile-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: #a1a1aa;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .casefile-text-field {
+      background: #111116;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .casefile-text-field:focus {
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .casefile-textarea {
+      background: #111116;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      outline: none;
+      resize: vertical;
+      min-height: 130px;
+      line-height: 1.5;
+    }
+
+    .casefile-textarea:focus {
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .casefile-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .casefile-btn {
+      background: #ffffff;
+      color: #000000;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 22px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .casefile-btn.secondary {
+      background: #18181f;
+      color: #e4e4e7;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .casefile-btn.secondary:hover {
+      background: #23232c;
+    }
+
+    .hub-results-panel {
+      width: 100%;
+      min-height: 220px;
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 24px;
+      color: #52525b;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+    }
+
+    .hub-results-panel svg {
+      width: 28px;
+      height: 28px;
+      color: #3f3f46;
+    }
+  </style>
+</head>
+<body>
+
+  <video id="bg-video" autoplay muted loop playsinline preload="auto">
+    <source src="assets/bg/bg.mp4" type="video/mp4">
+    <source src="unmasked-re/assets/bg/bg.mp4" type="video/mp4">
+  </video>
+
+  <header class="navbar">
+    <div class="nav-brand">
+      <a href="#" class="logo-container">
+        <img src="assets/icons/unmasked.png" alt="unmasked" class="logo-icon-img" onerror="this.src='unmasked-re/assets/icons/unmasked.png'">
+        <span class="logo-text">unmasked</span>
+      </a>
+    </div>
+
+    <nav class="nav-center">
+      <ul class="nav-links">
+        <li><a href="#hero-search-col">Lookup</a></li>
+        <li><a href="#database-section">Database</a></li>
+        <li><a href="#tools">Modules</a></li>
+        <li><a href="#graph-section">Correlation</a></li>
+        <li><a href="#compare">Compare</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-right" id="nav-auth-actions">
+      <button class="btn-login" id="open-login-btn">Login</button>
+      <button class="btn-nav-primary" id="open-signup-btn">Sign Up</button>
+    </div>
+  </header>
+
+  <main class="main-container reveal">
+    <div class="content-col">
+      <div class="hero-icon-wrapper">
+        <img src="assets/icons/unmasked.png" alt="unmasked emblem" class="hero-logo-img" onerror="this.src='unmasked-re/assets/icons/unmasked.png'">
+      </div>
+
+      <h1 class="hero-heading">unmasked</h1>
+
+      <p class="hero-desc">
+        Cross-reference leaks, accounts, and digital footprints across every network in seconds.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#tools" class="btn-main-white">Explore Modules</a>
+        <a href="#pricing" class="btn-main-dark">Pricing</a>
+      </div>
+    </div>
+
+    <div class="preview-col" id="hero-search-col">
+      <div class="beside-search-wrap">
+        <h2 class="beside-search-title">Search once, see everything</h2>
+        <form id="public-search-form" class="free-search-bar">
+          <svg class="free-search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="text" 
+            id="public-query-input" 
+            placeholder="Email, username, Discord ID..." 
+            autocomplete="off" 
+            required
+          />
+          <button type="submit" class="free-search-btn" id="search-btn">Scan</button>
+        </form>
+
+        <div id="live-results-output" class="live-results-output"></div>
+      </div>
+    </div>
+  </main>
+
+  <section id="database-section" class="database-section reveal">
+    <div class="database-header">
+      <span class="database-tag">INDEX INTELLIGENCE</span>
+      <h2 class="database-title">Our Database</h2>
+      <p class="database-desc">Real-time telemetry across our local NVMe storage and connected OSINT feeds.</p>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-box">
+        <span class="metric-num scrambler" data-final="943B+">943B+</span>
+        <span class="metric-name">Indexed Records</span>
+        <span class="metric-sub">Raw credentials, darknet leaks & breach archives</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-num scrambler" data-final="62">62</span>
+        <span class="metric-name">External APIs</span>
+        <span class="metric-sub">Simultaneous parallel scan connectors</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-num scrambler" data-final="7TB">7TB</span>
+        <span class="metric-name">Local Data</span>
+        <span class="metric-sub">Dedicated offline fast-access storage</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-num scrambler" data-final="430ms">430ms</span>
+        <span class="metric-name">Avg Response</span>
+        <span class="metric-sub">In-memory query optimization</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="tools" class="tools-section reveal">
+    <div class="tools-heading-block">
+      <span class="tools-category-tag">MODULES</span>
+      <h2 class="tools-main-title">Every tool in the panel.</h2>
+      <p class="tools-main-desc">Search, footprint, and enrichment modules — updated constantly as new sources drop.</p>
+    </div>
+
+    <div class="tools-grid">
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+        <h3 class="tool-name">Username Lookup</h3>
+        <p class="tool-desc">Cross-reference target usernames across platforms, breach dumps, and forums.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </div>
+        <h3 class="tool-name">E-mail Lookup</h3>
+        <p class="tool-desc">Extract associations, passwords, and linked services connected to an email.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <rect x="3" y="4" width="18" height="16" rx="3"></rect>
+            <circle cx="9" cy="10" r="2"></circle>
+            <line x1="15" y1="8" x2="17" y2="8"></line>
+            <line x1="15" y1="12" x2="17" y2="12"></line>
+            <line x1="7" y1="16" x2="17" y2="16"></line>
+          </svg>
+        </div>
+        <h3 class="tool-name">Name Lookup</h3>
+        <p class="tool-desc">Filter full names against public registries, voter records, and public indexes.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"></path>
+          </svg>
+        </div>
+        <h3 class="tool-name">IP Lookup</h3>
+        <p class="tool-desc">Query geolocation, ISP details, VPN detection, and hosting range intelligence.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <rect x="2" y="6" width="20" height="12" rx="3"></rect>
+            <line x1="6" y1="12" x2="10" y2="12"></line>
+            <line x1="8" y1="10" x2="8" y2="14"></line>
+            <circle cx="15" cy="12" r="1"></circle>
+            <circle cx="18" cy="12" r="1"></circle>
+          </svg>
+        </div>
+        <h3 class="tool-name">FiveM OSINT</h3>
+        <p class="tool-desc">Extract identifiers, CFX endpoints, player license keys, and server records.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </div>
+        <h3 class="tool-name">Telegram OSINT</h3>
+        <p class="tool-desc">Resolve Telegram IDs, historical usernames, mutual channels, and phone links.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M18 6h0a14.5 14.5 0 0 0-4-1.2 9.8 9.8 0 0 0-.4 1 12.3 12.3 0 0 0-3.2 0 9.8 9.8 0 0 0-.4-1A14.5 14.5 0 0 0 6 6C3.5 9.7 2.8 13.3 3.1 16.9a14.7 14.7 0 0 0 4.5 2.3c.4-.5.7-1 1-1.6a9.5 9.5 0 0 1-1.6-.8l.4-.3a10.5 10.5 0 0 0 9.2 0l.4.3a9.5 9.5 0 0 1-1.6.8c.3.6.6 1.1 1 1.6a14.7 14.7 0 0 0 4.5-2.3c.4-4.2-.7-7.8-2.9-10.9z"></path>
+            <circle cx="9" cy="12" r="1"></circle>
+            <circle cx="15" cy="12" r="1"></circle>
+          </svg>
+        </div>
+        <h3 class="tool-name">Discord ID Lookup</h3>
+        <p class="tool-desc">Inspect creation dates, badges, connected platforms, and server footprints.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+          </svg>
+        </div>
+        <h3 class="tool-name">E-mail Footprint</h3>
+        <p class="tool-desc">Detect existing accounts registered under a selector across 400+ platforms.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <path d="M11 8v6"></path>
+            <path d="M8 11h6"></path>
+          </svg>
+        </div>
+        <h3 class="tool-name">Username Footprint</h3>
+        <p class="tool-desc">Scan exact handle registrations across social media, gaming, and code repos.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <rect x="5" y="5" width="14" height="14" rx="2" transform="rotate(15 12 12)"></rect>
+          </svg>
+        </div>
+        <h3 class="tool-name">Roblox Lookup</h3>
+        <p class="tool-desc">Trace user ID history, previous usernames, group roles, and friends lists.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+            <line x1="10" y1="20" x2="14" y2="4"></line>
+          </svg>
+        </div>
+        <h3 class="tool-name">IntelX</h3>
+        <p class="tool-desc">Deep archive search through darknet dumps, paste sites, and indexed leaks.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+        </div>
+        <h3 class="tool-name">Domain Lookup</h3>
+        <p class="tool-desc">Analyze WHOIS records, historical DNS changes, subdomains, and SSL entries.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+        </div>
+        <h3 class="tool-name">Image GeoLocation</h3>
+        <p class="tool-desc">Extract EXIF metadata and analyze visual landmarks to locate coordinates.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <rect x="2" y="4" width="20" height="12" rx="2"></rect>
+            <path d="M6 20h12"></path>
+            <path d="M12 16v4"></path>
+          </svg>
+        </div>
+        <h3 class="tool-name">Machine View</h3>
+        <p class="tool-desc">Inspect open ports, active services, vulnerabilities, and host banners.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+          </svg>
+        </div>
+        <h3 class="tool-name">Tiktok OSINT</h3>
+        <p class="tool-desc">Resolve user IDs, creation times, upload habits, and connected phone numbers.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M12 2C8 2 6 4.5 6 8c0 2-1 3-2 3.5 1 .5 1.5 1 1.5 2 0 1-1 1.5-1.5 2 1.5.5 3 0 4 1 1 1 2.5 1.5 4 1.5s3-.5 4-1.5c1-1 2.5-.5 4-1-.5-.5-1.5-1-1.5-2 0-1 .5-1.5 1.5-2-1-.5-2-1.5-2-3.5 0-3.5-2-6-6-6z"></path>
+          </svg>
+        </div>
+        <h3 class="tool-name">SnapChat OSINT</h3>
+        <p class="tool-desc">Inspect Bitmoji avatars, registration dates, story uploads, and linked accounts.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+          </svg>
+        </div>
+        <h3 class="tool-name">Twitter OSINT</h3>
+        <p class="tool-desc">Investigate account IDs, historical handles, tweets, interactions, and metrics.</p>
+      </div>
+
+      <div class="tool-box">
+        <div class="tool-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+            <line x1="12" y1="11" x2="12" y2="17"></line>
+            <line x1="9" y1="14" x2="15" y2="14"></line>
+          </svg>
+        </div>
+        <h3 class="tool-name">Case File</h3>
+        <p class="tool-desc">Organize intelligence, nodes, screenshots, and indicators into a single dossier.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="graph-section" class="investigation-section reveal">
+    <div class="investigation-heading-block">
+      <span class="investigation-category-tag">CORRELATION</span>
+      <h2 class="investigation-main-title">Identity Correlation Graph</h2>
+      <p class="investigation-main-desc">Map identifiers, leaked associations, and pivot points in a unified visual constellation.</p>
+    </div>
+
+    <div class="investigation-stage">
+      <svg class="graph-svg-lines" viewBox="0 0 1100 620" fill="none" preserveAspectRatio="none">
+        <path d="M 550 320 Q 380 230 280 160" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <path d="M 550 320 Q 330 315 210 330" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <path d="M 550 320 Q 390 410 330 500" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <path d="M 550 320 Q 720 230 820 160" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <path d="M 550 320 Q 770 315 890 330" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <path d="M 550 320 Q 710 410 770 500" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <path d="M 280 160 Q 240 240 210 330" stroke="rgba(255, 255, 255, 0.08)" stroke-width="0.8"/>
+        <path d="M 820 160 Q 860 240 890 330" stroke="rgba(255, 255, 255, 0.08)" stroke-width="0.8"/>
+      </svg>
+
+      <div class="cluster-bg-nodes">
+        <span class="node-tag" style="top: 20px; left: 80px;">BreachDirectory</span>
+        <span class="node-tag" style="top: 55px; left: 240px;">LeakCheck</span>
+        <span class="node-tag" style="top: 240px; left: 60px;">LeakOSINT</span>
+        <span class="node-tag" style="top: 260px; left: 260px;">SnusBase</span>
+        <span class="node-tag" style="top: 140px; left: 290px;">HudsonRock</span>
+
+        <span class="cluster-orb" style="top: 30px; left: 60px;"></span>
+        <span class="cluster-orb" style="top: 90px; left: 30px;"></span>
+        <span class="cluster-orb" style="top: 160px; left: 50px;"></span>
+        <span class="cluster-orb" style="top: 70px; left: 220px;"></span>
+        <span class="cluster-orb" style="top: 130px; left: 330px;"></span>
+        <span class="cluster-orb" style="top: 250px; left: 40px;"></span>
+        <span class="cluster-orb" style="top: 280px; left: 310px;"></span>
+      </div>
+
+      <div class="central-poly-icon">
+        <svg class="sphere-svg" viewBox="0 0 130 130" fill="none">
+          <circle cx="65" cy="65" r="54" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1"/>
+          <ellipse cx="65" cy="65" rx="54" ry="24" stroke="rgba(255, 255, 255, 0.2)" stroke-width="0.8"/>
+          <ellipse cx="65" cy="65" rx="24" ry="54" stroke="rgba(255, 255, 255, 0.2)" stroke-width="0.8"/>
+          <line x1="65" y1="11" x2="65" y2="119" stroke="rgba(255, 255, 255, 0.12)" stroke-width="0.8"/>
+          <line x1="11" y1="65" x2="119" y2="65" stroke="rgba(255, 255, 255, 0.12)" stroke-width="0.8"/>
+          <polygon points="65,15 110,40 110,90 65,115 20,90 20,40" stroke="rgba(255, 255, 255, 0.28)" stroke-width="1"/>
+          <polygon points="65,25 100,65 65,105 30,65" stroke="rgba(255, 255, 255, 0.22)" stroke-width="0.8"/>
+        </svg>
+        <div class="sphere-center-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="2.5"/>
+            <path d="M14 15l2 2"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="central-query-pill">
+        <span class="query-tag-sub">QUERY</span>
+        <span class="query-val-text">j***@gmail.com</span>
+      </div>
+
+      <div class="extract-card card-username">
+        <span class="extract-label">USERNAME</span>
+        <span class="extract-val">n0ct**rn</span>
+      </div>
+
+      <div class="extract-card card-ip">
+        <span class="extract-label">IP</span>
+        <span class="extract-val">91.212.**.**</span>
+      </div>
+
+      <div class="extract-card card-phone">
+        <span class="extract-label">PHONE</span>
+        <span class="extract-val">+90 5** ***</span>
+      </div>
+
+      <div class="extract-card card-breach">
+        <span class="extract-label">BREACH</span>
+        <span class="extract-val">Collection#1</span>
+      </div>
+
+      <div class="extract-card card-discord">
+        <span class="extract-label">DISCORD</span>
+        <span class="extract-val">id: 850*******</span>
+      </div>
+
+      <div class="extract-card card-stealer">
+        <span class="extract-label">STEALER</span>
+        <span class="extract-val">log · 2.1M</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="compare" class="compare-section reveal">
+    <div class="compare-header-row">
+      <div>
+        <span class="compare-tag">BENCHMARK</span>
+        <h2 class="compare-title">One platform instead of six subscriptions.</h2>
+      </div>
+      <p class="compare-desc">
+        Unmasked connects 62 external OSINT sources, darknet dumps, and stealer logs simultaneously, replacing fragmented multi-subscription toolchains.
+      </p>
+    </div>
+
+    <div class="compare-table-frame">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>CAPABILITY</th>
+            <th class="col-highlight">UNMASKED <span class="unmasked-badge">ACTIVE</span></th>
+            <th>DEHASHED</th>
+            <th>LEAKCHECK</th>
+            <th>INTELX</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Records</td>
+            <td class="col-highlight">943B+</td>
+            <td>18B+</td>
+            <td>19B+</td>
+            <td>300B+</td>
+          </tr>
+          <tr>
+            <td>External APIs</td>
+            <td class="col-highlight">62</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>Local Database</td>
+            <td class="col-highlight"><span class="check-mark">✓</span></td>
+            <td><span class="cross-mark">✕</span></td>
+            <td><span class="cross-mark">✕</span></td>
+            <td><span class="cross-mark">✕</span></td>
+          </tr>
+          <tr>
+            <td>No Logs</td>
+            <td class="col-highlight"><span class="check-mark">✓</span></td>
+            <td><span class="cross-mark">✕</span></td>
+            <td><span class="cross-mark">✕</span></td>
+            <td><span class="cross-mark">✕</span></td>
+          </tr>
+          <tr>
+            <td>Crypto Payments</td>
+            <td class="col-highlight"><span class="check-mark">✓</span></td>
+            <td><span class="cross-mark">✕</span></td>
+            <td><span class="check-mark">✓</span></td>
+            <td><span class="cross-mark">✕</span></td>
+          </tr>
+          <tr>
+            <td>Stealer Logs</td>
+            <td class="col-highlight"><span class="check-mark">✓</span></td>
+            <td><span class="cross-mark">✕</span></td>
+            <td><span class="check-mark">✓</span></td>
+            <td><span class="check-mark">✓</span></td>
+          </tr>
+          <tr>
+            <td>Parallel Queries</td>
+            <td class="col-highlight"><span class="check-mark">✓</span></td>
+            <td><span class="cross-mark">✕</span></td>
+            <td><span class="cross-mark">✕</span></td>
+            <td><span class="cross-mark">✕</span></td>
+          </tr>
+          <tr>
+            <td>Identity Correlation Graph</td>
+            <td class="col-highlight"><span class="check-mark">✓</span></td>
+            <td><span class="cross-mark">✕</span></td>
+            <td><span class="cross-mark">✕</span></td>
+            <td><span class="cross-mark">✕</span></td>
+          </tr>
+          <tr>
+            <td>Pricing</td>
+            <td class="col-highlight">$35 Lifetime</td>
+            <td>$5.49 / mo</td>
+            <td>€7.49 / mo</td>
+            <td>€2,500 / yr</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="pricing" class="pricing-section reveal">
+    <div class="pricing-header">
+      <span class="pricing-tag">SECURE CHECKOUT</span>
+      <h2 class="pricing-title">Get Instant Access</h2>
+      <p class="pricing-desc">Choose a tier to receive your API license key and panel access immediately.</p>
+
+      <div class="pricing-toggle-wrap">
+        <button type="button" class="billing-toggle-btn active" data-period="lifetime">Lifetime</button>
+        <button type="button" class="billing-toggle-btn" data-period="monthly">Monthly</button>
+      </div>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="pricing-card plan-tier" data-tier="lifetime">
+        <div class="plan-badge">POPULAR</div>
+        <h3 class="plan-name">Basic Lifetime</h3>
+        <div class="plan-price">$40 <span>/ one-time</span></div>
+        <p class="plan-info">Permanent baseline access with no recurring subscription fees.</p>
+        <ul class="plan-features">
+          <li>✓ 58 External APIs</li>
+          <li>✓ 15 Machine Views A Day</li>
+          <li>✓ 50 IntelX Lookups A Day</li>
+          <li>✓ DashBoard Access</li>
+        </ul>
+        <button class="btn-checkout">Get License Key</button>
+      </div>
+
+      <div class="pricing-card featured plan-tier" data-tier="lifetime">
+        <div class="plan-badge premium">ENTERPRISE</div>
+        <h3 class="plan-name">Pro Lifetime</h3>
+        <div class="plan-price">$75 <span>/ one-time</span></div>
+        <p class="plan-info">Maximum lookups, full external connectors, and priority access forever.</p>
+        <ul class="plan-features">
+          <li>✓ 63 External APIs</li>
+          <li>✓ 30 Machine Views A Day</li>
+          <li>✓ 375 IntelX Lookups A Day</li>
+          <li>✓ DashBoard Access</li>
+        </ul>
+        <button class="btn-checkout primary">Get License Key</button>
+      </div>
+
+      <div class="pricing-card plan-tier" data-tier="monthly" style="display: none;">
+        <div class="plan-badge">MONTHLY</div>
+        <h3 class="plan-name">Basic Monthly</h3>
+        <div class="plan-price">$25 <span>/ month</span></div>
+        <p class="plan-info">Standard monthly access to core intelligence modules.</p>
+        <ul class="plan-features">
+          <li>✓ 58 External APIs</li>
+          <li>✓ 10 Machine Views A Day</li>
+          <li>✓ 25 IntelX Lookups A Day</li>
+          <li>✓ DashBoard Access</li>
+        </ul>
+        <button class="btn-checkout">Get License Key</button>
+      </div>
+
+      <div class="pricing-card featured plan-tier" data-tier="monthly" style="display: none;">
+        <div class="plan-badge premium">PRO</div>
+        <h3 class="plan-name">Pro Monthly</h3>
+        <div class="plan-price">$35 <span>/ month</span></div>
+        <p class="plan-info">Higher daily limits for regular active investigations.</p>
+        <ul class="plan-features">
+          <li>✓ 63 External APIs</li>
+          <li>✓ 20 Machine Views A Day</li>
+          <li>✓ 100 IntelX Lookups A Day</li>
+          <li>✓ DashBoard Access</li>
+        </ul>
+        <button class="btn-checkout primary">Get License Key</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="faq-section reveal">
+    <div class="faq-heading-block">
+      <span class="faq-category-tag">KNOWLEDGE BASE</span>
+      <h2 class="faq-main-title">Frequently Asked Questions</h2>
+      <p class="faq-main-desc">Answers covering plans, zero-log routing, daily queries, and verification.</p>
+    </div>
+
+    <div class="faq-container">
+      <details class="faq-item">
+        <summary class="faq-question">
+          <span>How many sources does unmasked offer?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </summary>
+        <div class="faq-answer">
+          Unmasked queries across 62 external OSINT connectors and API feeds simultaneously alongside 7TB of dedicated local NVMe storage containing over 943B+ indexed records and darknet dumps.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-question">
+          <span>Does unmasked collect or log any data?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </summary>
+        <div class="faq-answer">
+          No. We operate under a strict zero-log policy. Query parameters, IP correlation inputs, and lookup history are never stored, logged, or tied to your profile.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-question">
+          <span>What makes unmasked different?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </summary>
+        <div class="faq-answer">
+          Unlike single-subscription services that require multiple accounts, Unmasked unifies 18 specialized modules, raw stealer logs, parallel search execution, and an Identity Correlation Graph into a single lifetime license.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-question">
+          <span>How are payments processed and which assets are accepted?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </summary>
+        <div class="faq-answer">
+          We accept direct crypto checkouts (BTC, ETH, LTC, SOL, and USDT/USDC across all chains). Your dashboard license key is automatically generated and sent the moment payment is verified.
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Unmasked Integrated OSINT Terminal Screen -->
+  <div id="osint-dashboard-screen" class="unmasked-hub-screen" style="display: none;">
+    <aside class="hub-sidebar">
+      <div class="hub-brand-block">
+        <img src="assets/icons/unmasked.png" alt="unmasked" class="hub-brand-logo" onerror="this.src='unmasked-re/assets/icons/unmasked.png'">
+        <div>
+          <div class="hub-brand-text">unmasked</div>
+          <div class="hub-tag-mini">intelligence terminal</div>
+        </div>
+      </div>
+
+      <div class="hub-nav-group">
+        <button type="button" class="hub-nav-button active" id="hub-side-dash">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Overview
+        </button>
+      </div>
+
+      <!-- Identity -->
+      <div class="hub-nav-group">
+        <span class="hub-group-title">Identity</span>
+        <button type="button" class="hub-nav-button" data-tool="username"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Username</button>
+        <button type="button" class="hub-nav-button" data-tool="email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> E-mail</button>
+        <button type="button" class="hub-nav-button" data-tool="name"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="3"></rect><circle cx="9" cy="10" r="2"></circle><line x1="15" y1="8" x2="17" y2="8"></line><line x1="15" y1="12" x2="17" y2="12"></line><line x1="7" y1="16" x2="17" y2="16"></line></svg> Name</button>
+        <button type="button" class="hub-nav-button" data-tool="password"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Password</button>
+      </div>
+
+      <!-- Social Intelligence -->
+      <div class="hub-nav-group">
+        <span class="hub-group-title">Social Intelligence</span>
+        <button type="button" class="hub-nav-button" data-tool="discord"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6h0a14.5 14.5 0 0 0-4-1.2 9.8 9.8 0 0 0-.4 1 12.3 12.3 0 0 0-3.2 0 9.8 9.8 0 0 0-.4-1A14.5 14.5 0 0 0 6 6C3.5 9.7 2.8 13.3 3.1 16.9a14.7 14.7 0 0 0 4.5 2.3c.4-.5.7-1 1-1.6a9.5 9.5 0 0 1-1.6-.8l.4-.3a10.5 10.5 0 0 0 9.2 0l.4.3a9.5 9.5 0 0 1-1.6.8c.3.6.6 1.1 1 1.6a14.7 14.7 0 0 0 4.5-2.3c.4-4.2-.7-7.8-2.9-10.9z"></path><circle cx="9" cy="12" r="1"></circle><circle cx="15" cy="12" r="1"></circle></svg> Discord</button>
+        <button type="button" class="hub-nav-button" data-tool="telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> Telegram</button>
+        <button type="button" class="hub-nav-button" data-tool="tiktok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg> TikTok</button>
+        <button type="button" class="hub-nav-button" data-tool="snapchat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8 2 6 4.5 6 8c0 2-1 3-2 3.5 1 .5 1.5 1 1.5 2 0 1-1 1.5-1.5 2 1.5.5 3 0 4 1 1 1 2.5 1.5 4 1.5s3-.5 4-1.5c1-1 2.5-.5 4-1-.5-.5-1.5-1-1.5-2 0-1 .5-1.5 1.5-2-1-.5-2-1.5-2-3.5 0-3.5-2-6-6-6z"></path></svg> Snapchat</button>
+        <button type="button" class="hub-nav-button" data-tool="twitter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg> Twitter</button>
+        <button type="button" class="hub-nav-button" data-tool="roblox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="5" width="14" height="14" rx="2" transform="rotate(15 12 12)"></rect></svg> Roblox</button>
+        <button type="button" class="hub-nav-button" data-tool="fivem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="3"></rect><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><circle cx="15" cy="12" r="1"></circle><circle cx="18" cy="12" r="1"></circle></svg> FiveM</button>
+      </div>
+
+      <!-- FootPrint -->
+      <div class="hub-nav-group">
+        <span class="hub-group-title">FootPrint</span>
+        <button type="button" class="hub-nav-button" data-tool="email_fp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path></svg> E-mail Footprint</button>
+        <button type="button" class="hub-nav-button" data-tool="user_fp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><path d="M11 8v6"></path><path d="M8 11h6"></path></svg> Username Footprint</button>
+      </div>
+
+      <!-- IntelX -->
+      <div class="hub-nav-group">
+        <span class="hub-group-title">IntelX</span>
+        <button type="button" class="hub-nav-button" data-tool="intelx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline><line x1="10" y1="20" x2="14" y2="4"></line></svg> IntelX</button>
+      </div>
+
+      <!-- Exposure -->
+      <div class="hub-nav-group">
+        <span class="hub-group-title">Exposure</span>
+        <button type="button" class="hub-nav-button" data-tool="exposure_image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> Image GeoLocation</button>
+        <button type="button" class="hub-nav-button" data-tool="machine"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="12" rx="2"></rect><path d="M6 20h12"></path><path d="M12 16v4"></path></svg> Machine View</button>
+      </div>
+
+      <!-- Recon & Network -->
+      <div class="hub-nav-group">
+        <span class="hub-group-title">Recon & Network</span>
+        <button type="button" class="hub-nav-button" data-tool="ip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"></path></svg> IP</button>
+        <button type="button" class="hub-nav-button" data-tool="domain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg> Domain</button>
+      </div>
+
+      <!-- GeoSint -->
+      <div class="hub-nav-group">
+        <span class="hub-group-title">GeoSint</span>
+        <button type="button" class="hub-nav-button" data-tool="geosint_image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> Image GeoLocation</button>
+      </div>
+
+      <!-- Tools -->
+      <div class="hub-nav-group">
+        <span class="hub-group-title">Tools</span>
+        <button type="button" class="hub-nav-button" data-tool="casefile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line></svg> Case Files</button>
+      </div>
+    </aside>
+
+    <div class="hub-workspace">
+      <header class="hub-topbar">
+        <div class="hub-status-row">
+          <span class="hub-pulse-dot"></span>
+          <span class="hub-status-text">Encrypted cluster node #04 · Online</span>
+        </div>
+        <button type="button" class="hub-exit-button" id="hub-exit-btn">Return to Site</button>
+      </header>
+
+      <!-- Overview Workspace -->
+      <div id="hub-view-overview" class="hub-view-container">
+        <div class="hub-telemetry-banner">
+          <div class="hub-operator-meta">
+            <div class="hub-op-avatar">
+              <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <div>
+              <div class="hub-op-title" id="hub-username-label">@operator</div>
+              <div class="hub-op-sub" id="hub-plan-label">PRO LIFETIME · ACTIVE</div>
+            </div>
+          </div>
+
+          <div class="hub-metric-cell">
+            <span class="hub-metric-val" id="hub-apis-count">63</span>
+            <span class="hub-metric-name">Active Connectors</span>
+          </div>
+
+          <div class="hub-metric-cell">
+            <span class="hub-metric-val" id="hub-intelx-count">375/d</span>
+            <span class="hub-metric-name">IntelX Quota</span>
+          </div>
+
+          <div class="hub-metric-cell">
+            <span class="hub-metric-val" id="hub-machine-count">30/d</span>
+            <span class="hub-metric-name">Machine Lookups</span>
+          </div>
+        </div>
+
+        <!-- Section 1: Identity -->
+        <div class="hub-category-block">
+          <div class="hub-category-header">
+            <span class="hub-category-title">Identity</span>
+          </div>
+          <div class="hub-cards-grid">
+            <div class="hub-card" data-tool="username">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+                <span class="hub-card-indicator">INDEXED</span>
+              </div>
+              <div class="hub-card-title">Username</div>
+              <div class="hub-card-desc">Cross-reference target usernames across darknet breaches and databases.</div>
+            </div>
+
+            <div class="hub-card" data-tool="email">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></div>
+                <span class="hub-card-indicator">DEHASH</span>
+              </div>
+              <div class="hub-card-title">E-mail</div>
+              <div class="hub-card-desc">Extract associations, cleartext passwords, and linked services.</div>
+            </div>
+
+            <div class="hub-card" data-tool="name">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="3"></rect><circle cx="9" cy="10" r="2"></circle><line x1="15" y1="8" x2="17" y2="8"></line><line x1="15" y1="12" x2="17" y2="12"></line><line x1="7" y1="16" x2="17" y2="16"></line></svg></div>
+                <span class="hub-card-indicator">REGISTRY</span>
+              </div>
+              <div class="hub-card-title">Name</div>
+              <div class="hub-card-desc">Filter full legal names across open voter logs and registries.</div>
+            </div>
+
+            <div class="hub-card" data-tool="password">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></div>
+                <span class="hub-card-indicator">LOGS</span>
+              </div>
+              <div class="hub-card-title">Password</div>
+              <div class="hub-card-desc">Scan plain-text credentials and leaked database records.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Social Intelligence -->
+        <div class="hub-category-block">
+          <div class="hub-category-header">
+            <span class="hub-category-title">Social Intelligence</span>
+          </div>
+          <div class="hub-cards-grid">
+            <div class="hub-card" data-tool="discord">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6h0a14.5 14.5 0 0 0-4-1.2 9.8 9.8 0 0 0-.4 1 12.3 12.3 0 0 0-3.2 0 9.8 9.8 0 0 0-.4-1A14.5 14.5 0 0 0 6 6C3.5 9.7 2.8 13.3 3.1 16.9a14.7 14.7 0 0 0 4.5 2.3c.4-.5.7-1 1-1.6a9.5 9.5 0 0 1-1.6-.8l.4-.3a10.5 10.5 0 0 0 9.2 0l.4.3a9.5 9.5 0 0 1-1.6.8c.3.6.6 1.1 1 1.6a14.7 14.7 0 0 0 4.5-2.3c.4-4.2-.7-7.8-2.9-10.9z"></path><circle cx="9" cy="12" r="1"></circle><circle cx="15" cy="12" r="1"></circle></svg></div>
+                <span class="hub-card-indicator">API</span>
+              </div>
+              <div class="hub-card-title">Discord</div>
+              <div class="hub-card-desc">Creation timestamps, historical avatars, badges, and mutual nodes.</div>
+            </div>
+
+            <div class="hub-card" data-tool="telegram">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></div>
+                <span class="hub-card-indicator">RESOLVER</span>
+              </div>
+              <div class="hub-card-title">Telegram</div>
+              <div class="hub-card-desc">Resolve user IDs, username shifts, mutual groups, and carrier numbers.</div>
+            </div>
+
+            <div class="hub-card" data-tool="tiktok">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg></div>
+                <span class="hub-card-indicator">LIVE</span>
+              </div>
+              <div class="hub-card-title">TikTok</div>
+              <div class="hub-card-desc">Resolve numeric user IDs, posting timelines, and regional indicators.</div>
+            </div>
+
+            <div class="hub-card" data-tool="snapchat">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8 2 6 4.5 6 8c0 2-1 3-2 3.5 1 .5 1.5 1 1.5 2 0 1-1 1.5-1.5 2 1.5.5 3 0 4 1 1 1 2.5 1.5 4 1.5s3-.5 4-1.5c1-1 2.5-.5 4-1-.5-.5-1.5-1-1.5-2 0-1 .5-1.5 1.5-2-1-.5-2-1.5-2-3.5 0-3.5-2-6-6-6z"></path></svg></div>
+                <span class="hub-card-indicator">LIVE</span>
+              </div>
+              <div class="hub-card-title">Snapchat</div>
+              <div class="hub-card-desc">Extract raw Bitmoji assets, account creation hints, and public stories.</div>
+            </div>
+
+            <div class="hub-card" data-tool="twitter">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></div>
+                <span class="hub-card-indicator">FEED</span>
+              </div>
+              <div class="hub-card-title">Twitter</div>
+              <div class="hub-card-desc">Query numeric ID records, historical @handle changes, and activity.</div>
+            </div>
+
+            <div class="hub-card" data-tool="roblox">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="5" width="14" height="14" rx="2" transform="rotate(15 12 12)"></rect></svg></div>
+                <span class="hub-card-indicator">ENTITY</span>
+              </div>
+              <div class="hub-card-title">Roblox</div>
+              <div class="hub-card-desc">Trace user ID history, past aliases, groups, and linked connections.</div>
+            </div>
+
+            <div class="hub-card" data-tool="fivem">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="3"></rect><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><circle cx="15" cy="12" r="1"></circle><circle cx="18" cy="12" r="1"></circle></svg></div>
+                <span class="hub-card-indicator">SERVER</span>
+              </div>
+              <div class="hub-card-title">FiveM</div>
+              <div class="hub-card-desc">CFX license keys, server join records, Discord links, and Steam IDs.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: FootPrint -->
+        <div class="hub-category-block">
+          <div class="hub-category-header">
+            <span class="hub-category-title">FootPrint</span>
+          </div>
+          <div class="hub-cards-grid">
+            <div class="hub-card" data-tool="email_fp">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path></svg></div>
+                <span class="hub-card-indicator">400+ APPS</span>
+              </div>
+              <div class="hub-card-title">E-mail Footprint</div>
+              <div class="hub-card-desc">Check active account registrations across hundreds of consumer platforms.</div>
+            </div>
+
+            <div class="hub-card" data-tool="user_fp">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><path d="M11 8v6"></path><path d="M8 11h6"></path></svg></div>
+                <span class="hub-card-indicator">REPOSITORIES</span>
+              </div>
+              <div class="hub-card-title">Username Footprint</div>
+              <div class="hub-card-desc">Simultaneous handle enumeration across forums, Git repos, and platforms.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4: IntelX -->
+        <div class="hub-category-block">
+          <div class="hub-category-header">
+            <span class="hub-category-title">IntelX</span>
+          </div>
+          <div class="hub-cards-grid">
+            <div class="hub-card" data-tool="intelx">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline><line x1="10" y1="20" x2="14" y2="4"></line></svg></div>
+                <span class="hub-card-indicator">UUID</span>
+              </div>
+              <div class="hub-card-title">IntelX</div>
+              <div class="hub-card-desc">Search darknet archives, leaks, and system dumps by selector or UUID.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 5: Exposure -->
+        <div class="hub-category-block">
+          <div class="hub-category-header">
+            <span class="hub-category-title">Exposure</span>
+          </div>
+          <div class="hub-cards-grid">
+            <div class="hub-card" data-tool="exposure_image">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+                <span class="hub-card-indicator">EXPOSURE</span>
+              </div>
+              <div class="hub-card-title">Image GeoLocation</div>
+              <div class="hub-card-desc">Detect leaked metadata, device markers, and location exposure from uploaded images.</div>
+            </div>
+
+            <div class="hub-card" data-tool="machine">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="12" rx="2"></rect><path d="M6 20h12"></path><path d="M12 16v4"></path></svg></div>
+                <span class="hub-card-indicator">PORTS</span>
+              </div>
+              <div class="hub-card-title">Machine View</div>
+              <div class="hub-card-desc">Query target user handle or email to discover associated machines, sockets, and ports.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 6: Recon & Network -->
+        <div class="hub-category-block">
+          <div class="hub-category-header">
+            <span class="hub-category-title">Recon & Network</span>
+          </div>
+          <div class="hub-cards-grid">
+            <div class="hub-card" data-tool="ip">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"></path></svg></div>
+                <span class="hub-card-indicator">GEO</span>
+              </div>
+              <div class="hub-card-title">IP</div>
+              <div class="hub-card-desc">ISP ranges, autonomous systems, VPN detection, and routing data.</div>
+            </div>
+
+            <div class="hub-card" data-tool="domain">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></div>
+                <span class="hub-card-indicator">DNS</span>
+              </div>
+              <div class="hub-card-title">Domain</div>
+              <div class="hub-card-desc">Domain records, name servers, host configurations, and SSL entries.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 7: GeoSint -->
+        <div class="hub-category-block">
+          <div class="hub-category-header">
+            <span class="hub-category-title">GeoSint</span>
+          </div>
+          <div class="hub-cards-grid">
+            <div class="hub-card" data-tool="geosint_image">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+                <span class="hub-card-indicator">COORDINATES</span>
+              </div>
+              <div class="hub-card-title">Image GeoLocation</div>
+              <div class="hub-card-desc">Drag and drop an image to extract EXIF GPS coordinates and satellite pinpoint.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 8: Tools -->
+        <div class="hub-category-block">
+          <div class="hub-category-header">
+            <span class="hub-category-title">Tools</span>
+          </div>
+          <div class="hub-cards-grid">
+            <div class="hub-card" data-tool="casefile">
+              <div class="hub-card-top">
+                <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line></svg></div>
+                <span class="hub-card-indicator">DOSSIER</span>
+              </div>
+              <div class="hub-card-title">Case Files</div>
+              <div class="hub-card-desc">Compose, edit, and export custom intelligence dossiers and target notes.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Single Query Execution View -->
+      <div id="hub-view-tool" class="hub-query-screen" style="display: none;">
+        <button type="button" class="hub-back-action" id="hub-back-btn">
+          ← Return to Terminal Overview
+        </button>
+
+        <h2 class="hub-query-headline" id="hub-tool-title">Username</h2>
+        <p class="hub-query-subhead" id="hub-tool-desc">Cross-reference target usernames across darknet breaches and databases.</p>
+
+        <!-- Standard Search Bar -->
+        <form id="hub-active-form" style="width: 100%;">
+          <div class="hub-search-bar" id="hub-input-wrapper">
+            <input type="text" id="hub-input-field" placeholder="Enter query..." autocomplete="off">
+            <button type="submit" class="hub-search-btn" id="hub-submit-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              Scan
+            </button>
+          </div>
+        </form>
+
+        <!-- Drag & Drop Pic Zone for Image GeoLocation -->
+        <div id="hub-dropzone" class="dropzone-container" style="display: none;">
+          <input type="file" id="hub-file-input" class="dropzone-file-input" accept="image/*">
+          <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <div class="dropzone-title">Drag & drop your photo here, or click to browse</div>
+          <div class="dropzone-sub">Supports JPG, PNG, WEBP, HEIC · Extracts EXIF GPS & metadata</div>
+        </div>
+
+        <div id="hub-image-preview-wrapper" class="image-preview-box">
+          <img id="hub-image-preview-element" class="image-preview-thumb" alt="Uploaded Preview">
+          <span id="hub-image-meta-text" style="font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:#a1a1aa;"></span>
+        </div>
+
+        <!-- Case Files Writer Block -->
+        <div id="hub-casefile-editor" class="casefile-builder" style="display: none;">
+          <div class="casefile-input-group">
+            <label class="casefile-label">Case Identifier / Target</label>
+            <input type="text" id="case-target-input" class="casefile-text-field" placeholder="e.g. Case #0942 - target_alias / subject@domain.com">
+          </div>
+          <div class="casefile-input-group">
+            <label class="casefile-label">Dossier Notes & Intelligence Summary</label>
+            <textarea id="case-notes-input" class="casefile-textarea" placeholder="Write findings, connected handles, machine outputs, IPs, phone numbers, or operational notes..."></textarea>
+          </div>
+          <div class="casefile-actions-row">
+            <button type="button" class="casefile-btn" id="case-save-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+              Save Case File
+            </button>
+            <button type="button" class="casefile-btn secondary" id="case-export-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Export TXT
+            </button>
+          </div>
+        </div>
+
+        <div class="hub-results-panel" id="hub-results-area">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span id="hub-empty-label">Enter a query above to execute parallel OSINT scan</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="auth-modal" class="auth-modal-overlay">
+    <div class="auth-modal-container">
+      <button id="close-modal-btn" class="modal-close-btn">&times;</button>
+      
+      <div id="login-view" class="auth-view">
+        <h3 class="auth-title">Welcome back</h3>
+        <p class="auth-desc">Enter your credentials to access the panel.</p>
+
+        <form class="auth-form" id="login-form">
+          <div class="input-group">
+            <label>Username / Email</label>
+            <input type="text" id="login-user-input" placeholder="name@domain.com or handle" required>
+          </div>
+          <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="login-pass-input" placeholder="••••••••••••" required>
+          </div>
+          <div id="login-error-msg" class="auth-error-banner"></div>
+          <button type="submit" class="auth-submit-btn">Login to Terminal</button>
+        </form>
+
+        <div class="auth-footer">
+          <span>Need an account?</span>
+          <button type="button" class="auth-switch-btn" id="switch-to-signup">Sign up</button>
+        </div>
+      </div>
+
+      <div id="signup-view" class="auth-view" style="display: none;">
+        <h3 class="auth-title">Create account</h3>
+        <p class="auth-desc">Join unmasked to start running parallel lookups.</p>
+
+        <form class="auth-form" id="signup-form">
+          <div class="input-group">
+            <label>Username</label>
+            <input type="text" id="signup-user-input" placeholder="operator_tag" required>
+          </div>
+          <div class="input-group">
+            <label>Email</label>
+            <input type="email" id="signup-email-input" placeholder="name@domain.com" required>
+          </div>
+          <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="signup-pass-input" placeholder="••••••••••••" required>
+          </div>
+          <div id="signup-error-msg" class="auth-error-banner"></div>
+          <button type="submit" class="auth-submit-btn">Create Account & Claim Free Query</button>
+        </form>
+
+        <div class="auth-footer">
+          <span>Already have an account?</span>
+          <button type="button" class="auth-switch-btn" id="switch-to-login">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const observerOptions = {
+      root: null,
+      threshold: 0.12,
+      rootMargin: "0px 0px -50px 0px"
+    };
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          const scramblers = entry.target.querySelectorAll('.scrambler');
+          scramblers.forEach(el => runScrambler(el));
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(elem => {
+      revealObserver.observe(elem);
+    });
+
+    const chars = '0123456789ABCDEF!@#$%&*';
+    function runScrambler(el) {
+      if (el.dataset.scrambled === 'true') return;
+      el.dataset.scrambled = 'true';
+      const targetText = el.dataset.final || el.innerText;
+      let iteration = 0;
+      const totalSteps = targetText.length * 4;
+
+      const interval = setInterval(() => {
+        el.innerText = targetText
+          .split('')
+          .map((letter, index) => {
+            if (index < iteration / 4) return targetText[index];
+            return chars[Math.floor(Math.random() * chars.length)];
+          })
+          .join('');
+
+        if (iteration >= totalSteps) {
+          el.innerText = targetText;
+          clearInterval(interval);
+        }
+        iteration += 1;
+      }, 35);
+    }
+
+    const modal = document.getElementById('auth-modal');
+    const openLogin = document.getElementById('open-login-btn');
+    const openSignup = document.getElementById('open-signup-btn');
+    const closeModal = document.getElementById('close-modal-btn');
+    const loginView = document.getElementById('login-view');
+    const signupView = document.getElementById('signup-view');
+    const switchToSignup = document.getElementById('switch-to-signup');
+    const switchToLogin = document.getElementById('switch-to-login');
+    const navAuthActions = document.getElementById('nav-auth-actions');
+
+    function getUsers() {
+      try {
+        return JSON.parse(localStorage.getItem('unmasked_users') || '[]');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveUsers(users) {
+      localStorage.setItem('unmasked_users', JSON.stringify(users));
+    }
+
+    function getCurrentUser() {
+      try {
+        return JSON.parse(localStorage.getItem('unmasked_current_user') || 'null');
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function setCurrentUser(user) {
+      if (user) {
+        localStorage.setItem('unmasked_current_user', JSON.stringify(user));
+      } else {
+        localStorage.removeItem('unmasked_current_user');
+      }
+      renderAuthNav();
+    }
+
+    function renderAuthNav() {
+      const user = getCurrentUser();
+      if (user) {
+        const hasPlan = Boolean(user.plan);
+        const planTag = user.plan ? (user.plan.name.includes('Pro') ? 'PRO' : 'BASIC') : 'FREE';
+
+        navAuthActions.innerHTML = `
+          <div class="user-menu-wrapper" id="user-menu-wrap">
+            <div class="user-pill-btn" id="user-pill-trigger">
+              <div class="user-avatar-circle">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+              </div>
+              <span class="user-pill-name">${user.username}</span>
+              <span class="user-plan-badge">${planTag}</span>
+              <svg class="user-pill-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+
+            <div class="user-dropdown-menu">
+              ${hasPlan 
+                ? `<button type="button" class="dropdown-btn panel-btn" id="open-panel-dash">
+                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                     Dashboard
+                   </button>`
+                : `<div class="dropdown-btn panel-locked">
+                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                     Dashboard (Locked)
+                   </div>`
+              }
+
+              <button class="dropdown-btn logout-btn" id="dropdown-logout-act">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                Log Out
+              </button>
+            </div>
+          </div>
+        `;
+
+        const menuWrap = document.getElementById('user-menu-wrap');
+        const trigger = document.getElementById('user-pill-trigger');
+        const logoutAct = document.getElementById('dropdown-logout-act');
+        const openDashBtn = document.getElementById('open-panel-dash');
+        const dashModal = document.getElementById('osint-dashboard-screen');
+        const exitDashBtn = document.getElementById('hub-exit-btn');
+
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          menuWrap.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!menuWrap.contains(e.target)) {
+            menuWrap.classList.remove('active');
+          }
+        });
+
+        logoutAct.addEventListener('click', () => {
+          setCurrentUser(null);
+        });
+
+        if (openDashBtn) {
+          openDashBtn.addEventListener('click', () => {
+            menuWrap.classList.remove('active');
+            document.getElementById('hub-username-label').textContent = `@${user.username}`;
+            document.getElementById('hub-plan-label').textContent = `${user.plan.name.toUpperCase()} · ACTIVE`;
+            document.getElementById('hub-apis-count').textContent = user.plan.apis;
+            document.getElementById('hub-intelx-count').textContent = `${user.plan.intelxLookups}/d`;
+            document.getElementById('hub-machine-count').textContent = `${user.plan.machineViews}/d`;
+
+            openOverviewWorkspace();
+            dashModal.style.display = 'flex';
+          });
+        }
+
+        if (exitDashBtn) {
+          exitDashBtn.addEventListener('click', () => {
+            dashModal.style.display = 'none';
+          });
+        }
+      } else {
+        navAuthActions.innerHTML = `
+          <button class="btn-login" id="open-login-btn">Login</button>
+          <button class="btn-nav-primary" id="open-signup-btn">Sign Up</button>
+        `;
+        document.getElementById('open-login-btn').addEventListener('click', openLoginModal);
+        document.getElementById('open-signup-btn').addEventListener('click', openSignupModal);
+      }
+    }
+
+    const toolDetails = {
+      username: {
+        type: 'text',
+        title: "Username",
+        desc: "Cross-reference target usernames across darknet breach collections and indexed registries.",
+        placeholder: "Enter target username..."
+      },
+      email: {
+        type: 'text',
+        title: "E-mail",
+        desc: "Extract associations, cleartext credentials, and connected external accounts.",
+        placeholder: "Enter target email address..."
+      },
+      name: {
+        type: 'text',
+        title: "Name",
+        desc: "Query legal full names against voter registries, public indexes, and corporate archives.",
+        placeholder: "Enter full name..."
+      },
+      password: {
+        type: 'text',
+        title: "Password",
+        desc: "Scan exposed plaintext credential collections and darknet database leak archives.",
+        placeholder: "Enter password..."
+      },
+      discord: {
+        type: 'text',
+        title: "Discord",
+        desc: "Inspect creation dates, badges, connected accounts, and guild activity nodes.",
+        placeholder: "Enter 18-digit Discord ID..."
+      },
+      telegram: {
+        type: 'text',
+        title: "Telegram",
+        desc: "Resolve Telegram internal IDs, historical handles, public channels, and linked phones.",
+        placeholder: "Enter Telegram @handle or User ID..."
+      },
+      tiktok: {
+        type: 'text',
+        title: "TikTok",
+        desc: "Resolve numeric account IDs, creation timestamps, upload patterns, and metadata.",
+        placeholder: "Enter TikTok username..."
+      },
+      snapchat: {
+        type: 'text',
+        title: "Snapchat",
+        desc: "Inspect Bitmoji assets, account existence, registration hints, and story endpoints.",
+        placeholder: "Enter Snapchat handle..."
+      },
+      twitter: {
+        type: 'text',
+        title: "Twitter",
+        desc: "Query numeric user records, historical handle migrations, interactions, and metrics.",
+        placeholder: "Enter Twitter / X handle..."
+      },
+      roblox: {
+        type: 'text',
+        title: "Roblox",
+        desc: "Examine account creation dates, historical alias logs, inventories, and friends lists.",
+        placeholder: "Enter Roblox username or ID..."
+      },
+      fivem: {
+        type: 'text',
+        title: "FiveM",
+        desc: "Extract CFX player identifiers, linked Steam IDs, server endpoints, and license keys.",
+        placeholder: "Enter CFX ID, player tag, or Discord ID..."
+      },
+      email_fp: {
+        type: 'text',
+        title: "E-mail Footprint",
+        desc: "Detect existing accounts registered under an email selector across 400+ platforms.",
+        placeholder: "Enter target email address..."
+      },
+      user_fp: {
+        type: 'text',
+        title: "Username Footprint",
+        desc: "Scan exact handle registrations across social media, gaming, and code repositories.",
+        placeholder: "Enter exact handle..."
+      },
+      intelx: {
+        type: 'text',
+        title: "IntelX",
+        desc: "Deep archive search through darknet dumps, paste sites, and indexed stealer logs.",
+        placeholder: "Enter selector, email, domain, or UUID..."
+      },
+      exposure_image: {
+        type: 'image',
+        title: "Image GeoLocation",
+        desc: "Drag and drop a photo to detect leaked GPS metadata, hardware signatures, and geographical exposure.",
+        placeholder: ""
+      },
+      machine: {
+        type: 'text',
+        title: "Machine View",
+        desc: "Scan an operator or target's username or email to map host banners, active sockets, and exposed machines.",
+        placeholder: "Enter username or email..."
+      },
+      ip: {
+        type: 'text',
+        title: "IP",
+        desc: "Query ISP ranges, autonomous systems, VPN detection, and geolocation.",
+        placeholder: "Enter IPv4 or IPv6 address..."
+      },
+      domain: {
+        type: 'text',
+        title: "Domain",
+        desc: "Analyze WHOIS records, historical DNS changes, subdomains, and SSL certificates.",
+        placeholder: "Enter domain (e.g. domain.com)..."
+      },
+      geosint_image: {
+        type: 'image',
+        title: "Image GeoLocation",
+        desc: "Drag and drop an image to extract EXIF GPS coordinates and satellite landmark correlation.",
+        placeholder: ""
+      },
+      casefile: {
+        type: 'casefile',
+        title: "Case Files",
+        desc: "Compose, edit, and export custom intelligence dossiers and target notes.",
+        placeholder: ""
+      }
+    };
+
+    const overviewBlock = document.getElementById('hub-view-overview');
+    const toolBlock = document.getElementById('hub-view-tool');
+    const sideOverviewBtn = document.getElementById('hub-side-dash');
+    const backToOverviewBtn = document.getElementById('hub-back-btn');
+    const allNavButtons = document.querySelectorAll('.hub-nav-button');
+
+    const searchBarWrapper = document.getElementById('hub-active-form');
+    const dropzone = document.getElementById('hub-dropzone');
+    const fileInput = document.getElementById('hub-file-input');
+    const imgPreviewWrapper = document.getElementById('hub-image-preview-wrapper');
+    const imgPreviewElem = document.getElementById('hub-image-preview-element');
+    const imgMetaText = document.getElementById('hub-image-meta-text');
+    const casefileEditor = document.getElementById('hub-casefile-editor');
+    const caseTargetInput = document.getElementById('case-target-input');
+    const caseNotesInput = document.getElementById('case-notes-input');
+    const caseSaveBtn = document.getElementById('case-save-btn');
+    const caseExportBtn = document.getElementById('case-export-btn');
+
+    let currentToolMode = 'text';
+
+    function openOverviewWorkspace() {
+      allNavButtons.forEach(b => b.classList.remove('active'));
+      sideOverviewBtn.classList.add('active');
+      overviewBlock.style.display = 'flex';
+      toolBlock.style.display = 'none';
+    }
+
+    function openToolWorkspace(toolKey) {
+      const details = toolDetails[toolKey] || toolDetails['username'];
+      currentToolMode = details.type || 'text';
+
+      allNavButtons.forEach(b => {
+        if (b.dataset.tool === toolKey) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+
+      document.getElementById('hub-tool-title').textContent = details.title;
+      document.getElementById('hub-tool-desc').textContent = details.desc;
+      const inputField = document.getElementById('hub-input-field');
+      inputField.placeholder = details.placeholder || "Enter query...";
+      inputField.value = '';
+
+      // Reset panels
+      imgPreviewWrapper.style.display = 'none';
+      imgPreviewElem.src = '';
+      imgMetaText.textContent = '';
+      document.getElementById('hub-results-area').innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <span id="hub-empty-label">Ready to execute search for ${details.title}</span>
+      `;
+
+      if (currentToolMode === 'image') {
+        searchBarWrapper.style.display = 'none';
+        dropzone.style.display = 'flex';
+        casefileEditor.style.display = 'none';
+      } else if (currentToolMode === 'casefile') {
+        searchBarWrapper.style.display = 'none';
+        dropzone.style.display = 'none';
+        casefileEditor.style.display = 'flex';
+        loadCasefileState();
+      } else {
+        searchBarWrapper.style.display = 'block';
+        dropzone.style.display = 'none';
+        casefileEditor.style.display = 'none';
+      }
+
+      overviewBlock.style.display = 'none';
+      toolBlock.style.display = 'flex';
+    }
+
+    // Drag-and-drop Image Upload Handlers
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('drag-active');
+    });
+
+    dropzone.addEventListener('dragleave', () => {
+      dropzone.classList.remove('drag-active');
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('drag-active');
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        processUploadedImage(e.dataTransfer.files[0]);
+      }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        processUploadedImage(e.target.files[0]);
+      }
+    });
+
+    function processUploadedImage(file) {
+      if (!file.type.startsWith('image/')) {
+        alert('Please drop an image file (PNG, JPG, WEBP).');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        imgPreviewElem.src = evt.target.result;
+        imgPreviewWrapper.style.display = 'flex';
+        imgMetaText.textContent = `File: ${file.name} · Size: ${(file.size / 1024).toFixed(1)} KB · MIME: ${file.type}`;
+
+        const area = document.getElementById('hub-results-area');
+        area.innerHTML = `
+          <div style="width: 100%; text-align: left; padding: 10px;">
+            <div style="font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:#22c55e; margin-bottom: 8px;">
+              [GPS TELEMETRY RECOVERED] EXIF header inspection complete
+            </div>
+            <div style="margin-top: 10px; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; font-family:'JetBrains Mono', monospace; font-size: 0.74rem; color: #a1a1aa; line-height: 1.6;">
+              <div>• <strong>Coordinates:</strong> 47.0722° N, 21.9211° E</div>
+              <div>• <strong>Altitude:</strong> 132.4m Above Sea Level</div>
+              <div>• <strong>Camera Model:</strong> Embedded Sensor (Auto EXIF)</div>
+              <div>• <strong>Timestamp:</strong> ${new Date().toISOString()}</div>
+              <div>• <strong>Status:</strong> Geo-landmark verified against satellite raster tiles.</div>
+            </div>
+          </div>
+        `;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Case Files Logic
+    function loadCasefileState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('unmasked_active_casefile') || '{}');
+        caseTargetInput.value = saved.target || '';
+        caseNotesInput.value = saved.notes || '';
+      } catch (e) {}
+    }
+
+    caseSaveBtn.addEventListener('click', () => {
+      const data = {
+        target: caseTargetInput.value.trim(),
+        notes: caseNotesInput.value.trim(),
+        savedAt: new Date().toISOString()
+      };
+      localStorage.setItem('unmasked_active_casefile', JSON.stringify(data));
+      const area = document.getElementById('hub-results-area');
+      area.innerHTML = `
+        <div style="width: 100%; text-align: left; padding: 10px;">
+          <div style="font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:#22c55e; margin-bottom: 8px;">
+            [DOSSIER SAVED] Case file updated locally
+          </div>
+          <div style="font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:#e4e4e7;">
+            Subject: <strong>${data.target || 'Unnamed Target'}</strong>
+          </div>
+          <div style="margin-top: 10px; font-family:'JetBrains Mono', monospace; font-size:0.74rem; color:#71717a;">
+            Timestamp: ${data.savedAt}
+          </div>
+        </div>
+      `;
+    });
+
+    caseExportBtn.addEventListener('click', () => {
+      const target = caseTargetInput.value.trim() || 'Untitled Target';
+      const notes = caseNotesInput.value.trim() || 'No notes provided.';
+      const content = `UNMASKED CASE FILE REPORT\n=========================\nTarget / Subject: ${target}\nExported: ${new Date().toLocaleString()}\n\nNOTES & FINDINGS:\n-------------------------\n${notes}\n`;
+
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `case_${target.replace(/[^a-zA-Z0-9_-]/g, '_')}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    sideOverviewBtn.addEventListener('click', openOverviewWorkspace);
+    backToOverviewBtn.addEventListener('click', openOverviewWorkspace);
+
+    allNavButtons.forEach(btn => {
+      if (btn.dataset.tool) {
+        btn.addEventListener('click', () => openToolWorkspace(btn.dataset.tool));
+      }
+    });
+
+    document.querySelectorAll('.hub-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const tool = card.dataset.tool;
+        if (tool) openToolWorkspace(tool);
+      });
+    });
+
+    document.getElementById('hub-active-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = document.getElementById('hub-input-field').value.trim();
+      const area = document.getElementById('hub-results-area');
+      if (!val) return;
+
+      area.innerHTML = `
+        <div style="width: 100%; text-align: left; padding: 10px;">
+          <div style="font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:#22c55e; margin-bottom: 8px;">
+            [CONNECTED] Parallel query dispatched to cluster
+          </div>
+          <div style="font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:#e4e4e7;">
+            Input: <strong>${val}</strong>
+          </div>
+          <div style="margin-top: 14px; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; font-family:'JetBrains Mono', monospace; font-size: 0.74rem; color: #a1a1aa;">
+            Execution completed in 284ms · 0 correlated exposure records found on current filter.
+          </div>
+        </div>
+      `;
+    });
+
+    document.querySelectorAll('.pricing-card .btn-checkout').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const user = getCurrentUser();
+        if (!user) {
+          openLoginModal();
+          return;
+        }
+
+        const card = e.target.closest('.pricing-card');
+        const planName = card.querySelector('.plan-name').textContent.trim();
+        const period = card.dataset.tier;
+        const isPro = planName.toLowerCase().includes('pro');
+
+        user.plan = {
+          name: planName,
+          period: period,
+          apis: isPro ? 63 : 58,
+          machineViews: period === 'lifetime' ? (isPro ? 30 : 15) : (isPro ? 20 : 10),
+          intelxLookups: period === 'lifetime' ? (isPro ? 375 : 50) : (isPro ? 100 : 25),
+          hasDashboard: true
+        };
+
+        const users = getUsers();
+        const index = users.findIndex(u => u.username.toLowerCase() === user.username.toLowerCase());
+        if (index !== -1) {
+          users[index] = user;
+          saveUsers(users);
+        }
+        setCurrentUser(user);
+
+        alert(`Activated: ${planName}!\n• ${user.plan.apis} External APIs\n• ${user.plan.machineViews} Machine Views/day\n• ${user.plan.intelxLookups} IntelX Lookups/day\nDashboard is unlocked in your user dropdown.`);
+      });
+    });
+
+    function openLoginModal() {
+      modal.classList.add('active');
+      loginView.style.display = 'block';
+      signupView.style.display = 'none';
+      document.getElementById('login-error-msg').textContent = '';
+    }
+
+    function openSignupModal() {
+      modal.classList.add('active');
+      loginView.style.display = 'none';
+      signupView.style.display = 'block';
+      document.getElementById('signup-error-msg').textContent = '';
+    }
+
+    openLogin?.addEventListener('click', openLoginModal);
+    openSignup?.addEventListener('click', openSignupModal);
+
+    closeModal.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+
+    switchToSignup.addEventListener('click', () => {
+      loginView.style.display = 'none';
+      signupView.style.display = 'block';
+    });
+
+    switchToLogin.addEventListener('click', () => {
+      signupView.style.display = 'none';
+      loginView.style.display = 'block';
+    });
+
+    document.getElementById('signup-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('signup-user-input').value.trim();
+      const email = document.getElementById('signup-email-input').value.trim();
+      const password = document.getElementById('signup-pass-input').value;
+      const errorBox = document.getElementById('signup-error-msg');
+
+      if (username.length < 3) {
+        errorBox.textContent = 'Username must be at least 3 characters.';
+        return;
+      }
+      if (password.length < 6) {
+        errorBox.textContent = 'Password must be at least 6 characters.';
+        return;
+      }
+
+      const users = getUsers();
+      if (users.some(u => u.username.toLowerCase() === username.toLowerCase() || u.email.toLowerCase() === email.toLowerCase())) {
+        errorBox.textContent = 'User or email already registered.';
+        return;
+      }
+
+      const newUser = { username, email, password, queryCount: 0, lastQueryDate: null };
+      users.push(newUser);
+      saveUsers(users);
+      setCurrentUser(newUser);
+
+      modal.classList.remove('active');
+      e.target.reset();
+    });
+
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const userOrEmail = document.getElementById('login-user-input').value.trim();
+      const password = document.getElementById('login-pass-input').value;
+      const errorBox = document.getElementById('login-error-msg');
+
+      const users = getUsers();
+      const found = users.find(u => 
+        (u.username.toLowerCase() === userOrEmail.toLowerCase() || u.email.toLowerCase() === userOrEmail.toLowerCase()) && 
+        u.password === password
+      );
+
+      if (!found) {
+        errorBox.textContent = 'Invalid credentials. Check password or sign up.';
+        return;
+      }
+
+      setCurrentUser(found);
+      modal.classList.remove('active');
+      e.target.reset();
+    });
+
+    const form = document.getElementById('public-search-form');
+    const input = document.getElementById('public-query-input');
+    const output = document.getElementById('live-results-output');
+    const btn = document.getElementById('search-btn');
+    const SUPABASE_URL = "https://dlbkixctghaalkwkoxjb.supabase.co/functions/v1/smooth-api";
+    const SUPABASE_KEY = "sb_publishable__CQSKhHLKaWlNPiSD8i2Zw_S99FbMmS";
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const val = input.value.trim();
+      if (!val) return;
+
+      btn.textContent = '...';
+      output.style.display = 'block';
+      output.innerHTML = `<div class="loading-state">Querying OSINT feeds...</div>`;
+
+      try {
+        const res = await fetch(SUPABASE_URL, {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+            "apikey": SUPABASE_KEY,
+            "Authorization": `Bearer ${SUPABASE_KEY}`
+          },
+          body: JSON.stringify({ module: "email", q: val }) 
+        });
+
+        const data = await res.json();
+        btn.textContent = 'Scan';
+
+        if (data.ok && data.found) {
+           const limitedRecords = data.records.slice(0, 5);
+           output.innerHTML = `
+            <div class="results-card">
+              <div class="results-header">
+                <div>
+                  <span class="found-status">● VERIFIED HITS</span>
+                  <span class="target-name">${val}</span>
+                </div>
+                <span class="count-tag">${data.count} total hits</span>
+              </div>
+              <div class="results-grid-items">
+                ${limitedRecords.map(r => {
+                  let label = 'RECORD';
+                  if (r.source) label = r.source;
+                  else if (r.username) label = r.username;
+                  else if (r.email) label = r.email;
+
+                  let valueDisplay = 'Data Found';
+                  if (r.password) {
+                     const pass = String(r.password);
+                     if (pass.length > 3) {
+                        const start = pass.substring(0, 2);
+                        const end = pass.substring(pass.length - 1);
+                        valueDisplay = `${start}••••••••${end}`;
+                     } else {
+                        valueDisplay = '••••••••';
+                     }
+                  } else if (r.username) {
+                     valueDisplay = r.username;
+                  } else {
+                     valueDisplay = '••••••••';
+                  }
+
+                  let tagLabel = r.password ? 'PASSWORD' : 'USERNAME';
+
+                  return `
+                  <div class="result-row">
+                    <span class="source-tag">${tagLabel} · ${label}</span>
+                    <span class="censored-txt">${valueDisplay}</span>
+                  </div>
+                  `;
+                }).join('')}
+              </div>
+              <div class="results-footer">
+                <span class="warning-note">Showing 5 of ${data.count} results.</span>
+                <a href="#pricing" class="btn-unlock">Unlock Full List</a>
+              </div>
+            </div>`;
+        } else {
+           output.innerHTML = `<div class="results-card auth-required-card"><p class="auth-notice-copy">No records found.</p></div>`;
+        }
+      } catch (err) {
+        btn.textContent = 'Scan';
+        output.innerHTML = `<div class="results-card auth-required-card"><p class="auth-notice-copy">Connection Error. Check Console.</p></div>`;
+      }
+    });
+
+    renderAuthNav();
+
+    const toggleBtns = document.querySelectorAll('.billing-toggle-btn');
+    const planCards = document.querySelectorAll('.plan-tier');
+
+    toggleBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        toggleBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const period = btn.dataset.period;
+        planCards.forEach(card => {
+          if (card.dataset.tier === period) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
